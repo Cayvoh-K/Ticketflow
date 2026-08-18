@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getEventById = exports.getAllEvents = void 0;
+exports.purchaseTicket = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getEventById = exports.getAllEvents = void 0;
 const prisma_1 = require("../config/prisma");
 const getAllEvents = async () => {
     return prisma_1.prisma.event.findMany({
@@ -41,4 +41,26 @@ const deleteEvent = async (id) => {
     });
 };
 exports.deleteEvent = deleteEvent;
+const purchaseTicket = async (id) => {
+    const event = await prisma_1.prisma.event.findUnique({
+        where: {
+            id,
+        },
+    });
+    if (!event) {
+        throw new Error("Event not found");
+    }
+    if (event.availableTickets <= 0) {
+        throw new Error("Tickets are sold out");
+    }
+    return prisma_1.prisma.event.update({
+        where: {
+            id,
+        },
+        data: {
+            availableTickets: event.availableTickets - 1,
+        },
+    });
+};
+exports.purchaseTicket = purchaseTicket;
 //# sourceMappingURL=events.service.js.map

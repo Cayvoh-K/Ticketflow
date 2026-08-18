@@ -14,6 +14,28 @@ model Event {
   date            DateTime
   totalTickets    Int
   availableTickets Int
+  orders           Order[]
+  
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model User {
+  id  String @id @default(uuid())
+  name String
+  email String @unique
+  orders Order[]
+  createdAt DateTime @default(now())
+}
+
+model Order {
+id String @id @default(uuid())
+quantity Int @default(1)
+
+userId String
+user  User @relation(fields: [userId], references: [id])
+
+eventId String
+event  Event  @relation(fields: [eventId], references: [id])
+createdAt DateTime @default(now())
 }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeEvent = exports.updateExistingEvent = exports.createNewEvent = exports.getEvent = exports.getEvents = void 0;
+exports.purchaseEventTicket = exports.removeEvent = exports.updateExistingEvent = exports.createNewEvent = exports.getEvent = exports.getEvents = void 0;
 const events_service_1 = require("../services/events.service");
 const getEvents = async (_req, res) => {
     const events = await (0, events_service_1.getAllEvents)();
@@ -49,4 +49,22 @@ const removeEvent = async (req, res) => {
     res.status(204).send();
 };
 exports.removeEvent = removeEvent;
+const purchaseEventTicket = async (req, res) => {
+    const id = Array.isArray(req.params.id)
+        ? req.params.id[0]
+        : req.params.id;
+    try {
+        const updatedEvent = await (0, events_service_1.purchaseTicket)(id);
+        res.status(200).json(updatedEvent);
+    }
+    catch (error) {
+        const message = error instanceof Error
+            ? error.message
+            : "Unable to purchase ticket";
+        res.status(400).json({
+            message,
+        });
+    }
+};
+exports.purchaseEventTicket = purchaseEventTicket;
 //# sourceMappingURL=events.controllers.js.map

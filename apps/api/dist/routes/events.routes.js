@@ -6,6 +6,7 @@ const router = (0, express_1.Router)();
 router.get("/", events_controllers_1.getEvents);
 router.get("/:id", events_controllers_1.getEvent);
 router.post("/", events_controllers_1.createNewEvent);
+router.post("/:id/purchase", events_controllers_1.purchaseEventTicket);
 router.put("/:id", events_controllers_1.updateExistingEvent);
 router.delete("/:id", events_controllers_1.removeEvent);
 exports.default = router;

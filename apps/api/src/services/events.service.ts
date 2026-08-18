@@ -55,3 +55,28 @@ export const deleteEvent = async (id: string) => {
     },
   });
 };
+
+export const purchaseTicket = async (id: string) => {
+  const event = await prisma.event.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!event) {
+    throw new Error("Event not found");
+  }
+
+  if (event.availableTickets <= 0) {
+    throw new Error("Tickets are sold out");
+  }
+
+  return prisma.event.update({
+    where: {
+      id,
+    },
+    data: {
+      availableTickets: event.availableTickets - 1,
+    },
+  });
+};

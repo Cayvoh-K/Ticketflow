@@ -4,6 +4,7 @@ import {
   createNewEvent,
   getEvent,
   getEvents,
+  purchaseEventTicket,
   removeEvent,
   updateExistingEvent,
 } from "../controllers/events.controllers";
@@ -15,6 +16,8 @@ router.get("/", getEvents);
 router.get("/:id", getEvent);
 
 router.post("/", createNewEvent);
+
+router.post("/:id/purchase", purchaseEventTicket);
 
 router.put("/:id", updateExistingEvent);
 

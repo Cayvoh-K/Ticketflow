@@ -5,6 +5,7 @@ import {
   deleteEvent,
   getAllEvents,
   getEventById,
+  purchaseTicket,
   updateEvent,
 } from "../services/events.service";
 
@@ -78,4 +79,27 @@ export const removeEvent = async (
   await deleteEvent(id);
 
   res.status(204).send();
+};
+
+export const purchaseEventTicket = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const id = Array.isArray(req.params.id)
+  ? req.params.id[0]
+  : req.params.id;
+
+  try {
+    const updatedEvent = await purchaseTicket(id);
+
+    res.status(200).json(updatedEvent);
+  } catch (error) {
+    const message =
+    error instanceof Error
+    ? error.message
+    : "Unable to purchase ticket";
+    res.status(400).json({
+      message,
+    });
+  }
 };
