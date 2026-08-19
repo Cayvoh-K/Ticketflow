@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import eventsRouter from "./routes/events.routes";
+import ordersRoutes from "./routes/orders.routes";
 
 const app = express();
 
@@ -11,7 +12,8 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use("/api/events", eventsRouter)
+app.use("/api/events", eventsRouter);
+app.use("/api/orders", ordersRoutes);
 
 // Health Check
 app.get("/health", (_req, res) => {
