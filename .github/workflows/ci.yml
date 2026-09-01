@@ -47,8 +47,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image name
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE_NAME=ghcr.io/$OWNER/ticketflow-api:latest" >> "$GITHUB_ENV"
+
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ GITHUB_REPOSITORY_OWNER,, }}/ticketflow-api:latest .
+        run: docker build -t "$IMAGE_NAME" .
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ GITHUB_REPOSITORY_OWNER,, }}/ticketflow-api:latest
+        run: docker push "$IMAGE_NAME"
